@@ -1,37 +1,19 @@
-version: '3.8'
-name: awsgoo
-services:
-  nginx-proxy:
-    image: nginxproxy/nginx-proxy # https://github.com/nginx-proxy/nginx-proxy
-    ports:
-      - "9889:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    depends_on:
-      - blog
-    deploy:
-      resources:
-        limits:
-          cpus: '0.20'
-          memory: 50M
-        reservations:
-          cpus: '0.05'
-          memory: 20M
+FROM httpd:2.4.57
 
-  blog:
-    build: ../../docker_file/httpd
-    deploy:
-      mode: replicated
-      replicas: 1 # https://docs.docker.com/compose/compose-file/deploy/#replicas
-      resources: # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
-        limits:
-          cpus: '0.05'
-          memory: 50M
-        reservations:
-          cpus: '0.01'
-          memory: 20M
-    expose:
-      - "80"
-    environment:
-      - VIRTUAL_HOST=aws.google.com,172.31.86.218,ec2-54-236-8-204.compute-1.amazonaws.com
-      - VIRTUAL_PORT=80
+RUN ["apt-get", "update"]
+
+# code
+RUN ["apt-get", "install", "-y",  "git"]
+RUN ["git", "clone", "https://github.com/stayonasDev/stayonasDev2.github.io.git", "/usr/local/apache2/app/blog"]
+
+# change apache2 conf
+COPY ["httpd.conf", "/usr/local/apache2/conf/"]
+
+# cron
+RUN ["apt-get", "install", "-y", "cron"]
+COPY ["pull.sh", "/usr/local/apache2/app/blog/"]
+COPY ["blog-pull-cronjob", "/etc/cron.d/blog-pull-cronjob"]
+RUN ["crontab", "/etc/cron.d/blog-pull-cronjob"]
+
+# Just once at the end
+CMD service cron start;httpd-foreground
