@@ -94,3 +94,28 @@ $ docker rm myblog-1 myblog-2
 $ $ sudo docker compose -f compose/manual_lb/compose.yml  up -d --build --force-recreate
 $ sudo docker compose -f compose/manual_lb/compose.yml ps
 ```
+
+# 문제 해결
+- DB 의존성이 있어 모든 의존성을 삭제해도 해결이 되지 않았음 
+```bash
+2025-10-16T15:59:08.233Z  INFO 1 --- [applcation] [           main] lgcns.lg06.ApplicationApplication        : Starting ApplicationApplication v0.4.0 using Java 17-ea with PID 1 (/app.jar started by spring in /)
+2025-10-16T15:59:08.237Z  INFO 1 --- [applcation] [           main] lgcns.lg06.ApplicationApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-10-16T15:59:09.342Z  INFO 1 --- [applcation] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-10-16T15:59:09.355Z  INFO 1 --- [applcation] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-16T15:59:09.356Z  INFO 1 --- [applcation] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-16T15:59:09.386Z  INFO 1 --- [applcation] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-16T15:59:09.387Z  INFO 1 --- [applcation] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1092 ms
+2025-10-16T15:59:09.813Z  INFO 1 --- [applcation] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-10-16T15:59:09.842Z  INFO 1 --- [applcation] [           main] lgcns.lg06.ApplicationApplication        : Started ApplicationApplication in 2.169 seconds (process running for 2.82)
+
+$ curl http://localhost:8080/hello
+curl: (56) Recv failure: Connection reset by peer
+$ curl -X GET http://localhost:8080/hello
+curl: (56) Recv failure: Connection reset by peer
+
+# 문제는 도커의 포트 번호가 80이였는데 8080으로 하니 문제가 해결되었다.
+# 해당 에러가 발생한 이유를 생각하면 도커 내부의 포트가 인바운드는 8080으로 들어오고 도커의 포트는 80이다.
+# 즉 아웃바운드의 포트 번호는 80으로 스프링에게 80 Port로 도착하기 때문에 문제가 생기는 것으로 보인다.  
+$ docker run -d --name spring -p 8080:8080 stayonasdev/spring-boot-docker:0.3.1
+$ curl -X GET http://localhost:8080/hello         {"timesptamp":1760630425170,"message":"Hello, World!","koreatime":"2025-10-17T01:00:25.175832641+09:00[Asia/Seoul]"}%   
+```
