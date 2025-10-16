@@ -48,3 +48,36 @@ $ docker stop myblog-2;docker rm myblog-2
 $ docker run -dit --name myblog-2 -p 8052:80 myblog:2.0.0
 ```
 
+
+# 블루 그린 배포
+```bash
+# 초기 정보는 삭제하고 함
+$ docker stop myblog-1;docker rm myblog-1
+$ docker stop myblog-2;docker rm myblog-2
+$ docker stop nginx_lb-1;docker rm nginx_lb-1
+
+#sky-net으로 네트워크 구성
+$ docker network create sky-net
+$ docker run -dit --name myblog-1 -p 8151:80 --network sky-net myblog:1.1.0
+$ docker run -dit --name myblog-2 -p 8152:80 --network sky-net myblog:1.1.0
+$ docker run --name nginx_lb-1 -d -p 9051:80 --network sky-net nginx_lb:1.1.
+
+#새로 배포되는 서비스들
+$ docker run -dit --name myblog-1-1 --network sky-net myblog:2.0.0
+$ docker run -dit --name myblog-1-2 --network sky-net myblog:2.0.0
+
+# nginx 컨테이너의 LB 설정 바꿈
+upstream blog_servs {
+        #server myblog-1:80;
+        #server myblog-2:80;
+        server myblog-1-2:80;
+        server myblog-2-2:80;
+}
+# nginx reload로 설정 적용
+$ root@96882ed6d08c:/etc/nginx/conf.d# nginx -s reload
+  # 2025/10/16 07:40:21 [notice] 299#299: signal process started
+
+# 구버전 삭제
+$ docker stop myblog-1 myblog-2
+$ docker rm myblog-1 myblog-2
+```
