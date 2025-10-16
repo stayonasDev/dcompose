@@ -27,3 +27,23 @@ $ docker start nginx_lb-1
 # 1-2 방법
 $ docker run --name nginx_lb-1 -d -p 9052:80 --network blog-net nginx_lb:251014.2
 ```
+
+# Rolling Deploy (Update)
+```bash
+$ vim docker_file/httpd/Dockerfile
+# RUN 부분에서 clone 할 git 변경
+$ docker build -t myblog:2.0.0 docker_file/httpd/
+$ docker stop myblog-1; docker rm myblog-1
+$ docker run -dit --name myblog-1 -p 8051:80 myblog:2.0.0
+```
+- myblog-2
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/9d568dbe-82d1-4c92-b8b1-fc3bb7d52e1a" />
+- myblog-1 
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/21051233-433d-4051-98a6-84f0c5a671a4" />
+
+``` bash
+# 배포 확인 후 myblog-2도 변경
+$ docker stop myblog-2;docker rm myblog-2
+$ docker run -dit --name myblog-2 -p 8052:80 myblog:2.0.0
+```
+
