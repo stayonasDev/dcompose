@@ -87,3 +87,10 @@ $ docker rm myblog-1 myblog-2
 - 카나리아 배포가 생긴 이유는 블루/그린 배포에서는 배포된 2 개의 서버를 바로 바꾸기 때문에 문제가 생긴다면 시스템이 전체 장애인데
   카나리아는 배포된 서버를 적은 트래픽으로 테스트하면서 장애가 있는지 확인하고 로드 벨런서 비율을 높이기 때문에 안정적이기 때문에 생긴 것 같다.
 
+---------------------------------------------------
+# MSA 시작
+```bash
+# 컴포즈 생성 조회회
+$ $ sudo docker compose -f compose/manual_lb/compose.yml  up -d --build --force-recreate
+$ sudo docker compose -f compose/manual_lb/compose.yml ps
+```
