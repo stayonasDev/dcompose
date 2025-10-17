@@ -122,6 +122,7 @@ $ curl -X GET http://localhost:8080/hello         {"timesptamp":1760630425170,"m
 ```
 ---
 ```bash
+# 도커 허브에 이미지 푸시 후 compose의 이미지 버전 변경하고 생성
 $ docker compose -f compose/spring_lb/compose.yml up -d --build --force-recreate
 $  curl http://localhost:9889/hello
 {"koreatime":"2025-10-17T09:50:41.743404501+09:00[Asia/Seoul]","message":"Hello, World!","timesptamp":1760662241683}%
