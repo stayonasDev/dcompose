@@ -95,6 +95,7 @@ $ $ sudo docker compose -f compose/manual_lb/compose.yml  up -d --build --force-
 $ sudo docker compose -f compose/manual_lb/compose.yml ps
 ```
 
+---
 # 문제 해결
 - DB 의존성이 있어 모든 의존성을 삭제해도 해결이 되지 않았음 
 ```bash
@@ -117,5 +118,12 @@ curl: (56) Recv failure: Connection reset by peer
 # 해당 에러가 발생한 이유를 생각하면 도커 내부의 포트가 인바운드는 8080으로 들어오고 도커의 포트는 80이다.
 # 즉 아웃바운드의 포트 번호는 80으로 스프링에게 80 Port로 도착하기 때문에 문제가 생기는 것으로 보인다.  
 $ docker run -d --name spring -p 8080:8080 stayonasdev/spring-boot-docker:0.3.1
-$ curl -X GET http://localhost:8080/hello         {"timesptamp":1760630425170,"message":"Hello, World!","koreatime":"2025-10-17T01:00:25.175832641+09:00[Asia/Seoul]"}%   
+$ curl -X GET http://localhost:8080/hello         {"timesptamp":1760630425170,"message":"Hello, World!","koreatime":"2025-10-17T01:00:25.175832641+09:00[Asia/Seoul]"}%
+```
+---
+```bash
+$ docker compose -f compose/spring_lb/compose.yml up -d --build --force-recreate
+$  curl http://localhost:9889/hello
+{"koreatime":"2025-10-17T09:50:41.743404501+09:00[Asia/Seoul]","message":"Hello, World!","timesptamp":1760662241683}%
+
 ```
