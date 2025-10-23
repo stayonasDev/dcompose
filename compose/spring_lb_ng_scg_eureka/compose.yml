@@ -63,7 +63,7 @@ services:
 
   blog:
     # build: ../../docker_file/httpd
-    image: stayonasdev/spring-boot-docker:0.3.0
+    image: stayonasdev/spring-boot-docker:0.3.1
     ports:
       - "9765:8080"
     deploy:
