@@ -145,3 +145,8 @@ $ curl http://localhost:9889/api/nginx/users/hello2
 $ curl http://localhost:9889/api/nginx/users/hello
 {"message":"Hello, Jenkins!","timesptamp":1761235573823,"koreatime":"2025-10-24T01:06:13.823768416+09:00[Asia/Seoul]"}%     
 ```
+
+- 로그 확인
+``` bash
+$ docker logs -f awsgoo-sc-user-svc-
+```
