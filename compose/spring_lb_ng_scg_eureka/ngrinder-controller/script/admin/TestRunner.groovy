@@ -59,7 +59,7 @@ class TestRunner {
 	@Test
 	public void test() {
 	    grinder.sleep(1000)
-		HTTPResponse response = request.GET("http://172.17.0.1:9000/api/users/hello", params)
+		HTTPResponse response = request.GET("http://172.17.0.1:9889/hello", params)
 
 		if (response.statusCode == 301 || response.statusCode == 302) {
 			grinder.logger.warn("Warning. The response may not be correct. The response code was {}.", response.statusCode)
