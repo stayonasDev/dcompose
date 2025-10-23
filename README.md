@@ -131,7 +131,7 @@ $  curl http://localhost:9889/hello
 
 # ngrinder
 <img width="1648" height="232" alt="image" src="https://github.com/user-attachments/assets/d4f7b9a0-e493-43df-81b9-72545fd65edc" />
-
 <img width="1467" height="190" alt="image" src="https://github.com/user-attachments/assets/09737436-2da9-4e5c-93d3-8cb2ac743d1f" />
+<img width="1497" height="797" alt="image" src="https://github.com/user-attachments/assets/6601dd6f-fd76-4ba4-9a36-6a7464920184" />
 
 
