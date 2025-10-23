@@ -17,7 +17,7 @@ services:
 
 
   scg-proxy:
-    image: stayonasdev/sc-gateway:0.3.0
+    image: stayonasdev/sc-gateway:0.5.1
     ports:
       - "9000:9000"
     depends_on:
@@ -36,10 +36,10 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://sc-eureka:8765/eureka
 
   sc-user-svc:
-    image: stayonasdev/sc-user-svc:0.1.0
+    image: stayonasdev/sc-user-svc:0.2.0
     #container_name: sc-user-svc
     #ports:
-    #  - "9001:9001"
+    # - "9001:9001"
     depends_on:
       - sc-eureka
     environment:
