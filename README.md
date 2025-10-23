@@ -128,3 +128,10 @@ $  curl http://localhost:9889/hello
 {"koreatime":"2025-10-17T09:50:41.743404501+09:00[Asia/Seoul]","message":"Hello, World!","timesptamp":1760662241683}%
 
 ```
+
+# ngrinder
+<img width="1648" height="232" alt="image" src="https://github.com/user-attachments/assets/d4f7b9a0-e493-43df-81b9-72545fd65edc" />
+
+<img width="1467" height="190" alt="image" src="https://github.com/user-attachments/assets/09737436-2da9-4e5c-93d3-8cb2ac743d1f" />
+
+
