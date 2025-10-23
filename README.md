@@ -132,6 +132,16 @@ $  curl http://localhost:9889/hello
 # ngrinder
 <img width="1648" height="232" alt="image" src="https://github.com/user-attachments/assets/d4f7b9a0-e493-43df-81b9-72545fd65edc" />
 <img width="1467" height="190" alt="image" src="https://github.com/user-attachments/assets/09737436-2da9-4e5c-93d3-8cb2ac743d1f" />
-<img width="1497" height="797" alt="image" src="https://github.com/user-attachments/assets/6601dd6f-fd76-4ba4-9a36-6a7464920184" />
+<img width="1497" height="797" alt="image" src="https://github.com/user-attachments/assets/6601dd6f-fd76-4ba4-9a36-6a7464920184" />   
 
+- Nginx와 Spring Cloud Gateway 비교
+- Nginx 변경 후 Nginx만 빌드
+```bash
+$ docker compose up -d --build nginx-proxy
 
+# Test
+$ curl http://localhost:9889/api/nginx/users/hello2
+{"message":"CPU-heavy calculation completed.","koreatime":"2025-10-24T01:05:52.240536722+09:00[Asia/Seoul]","calculation_duration_ms":0,"result_snippet":"12201368259911100687012387854230469262535743428031...","input_number":500}%       
+$ curl http://localhost:9889/api/nginx/users/hello
+{"message":"Hello, Jenkins!","timesptamp":1761235573823,"koreatime":"2025-10-24T01:06:13.823768416+09:00[Asia/Seoul]"}%     
+```
